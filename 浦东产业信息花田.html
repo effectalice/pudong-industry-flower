@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浦东产业信息花田</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #e8f5e8 0%, #e3f2fd 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: #fafbf6;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 60px;
+            height: auto;
+        }
+        
+        .title-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .title-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px;
+        }
+        
+        .stats-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .stats-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .stat-item {
+            margin-bottom: 20px;
+        }
+        
+        .stat-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .stat-count {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .stat-bar-container {
+            height: 40px;
+            background: #e3e7f0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .stat-bar {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 1s ease-out;
+        }
+        
+        .stat-bar.tech {
+            background: linear-gradient(90deg, #6366F1, #8B5CF6);
+        }
+        
+        .stat-bar.finance {
+            background: linear-gradient(90deg, #F59E0B, #FBBF24);
+        }
+        
+        .stat-bar.shipping {
+            background: linear-gradient(90deg, #06B6D4, #38BDF8);
+        }
+        
+        .stat-bar.trade {
+            background: linear-gradient(90deg, #A855F7, #C084FC);
+        }
+        
+        .stat-bar.consumption {
+            background: linear-gradient(90deg, #EC4899, #F472B6);
+        }
+        
+        .stat-bar.culture {
+            background: linear-gradient(90deg, #EF4444, #F87171);
+        }
+        
+        .stat-bar.total {
+            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+        }
+        
+        .tech-sub-stats {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+        
+        .tech-sub-item {
+            margin-bottom: 10px;
+        }
+        
+        .tech-sub-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .tech-sub-bar-container {
+            height: 20px;
+            background: #e3e7f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .tech-sub-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease-out;
+        }
+        
+        .month-nav {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .month-nav h2 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .month-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .month-btn {
+            padding: 16px 32px;
+            border: 2px solid #6b9dc3;
+            background: white;
+            color: #6b9dc3;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .month-btn:hover {
+            background: #6b9dc3;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .month-btn.active {
+            background: #4a7c9b;
+            color: white;
+        }
+        
+        .industry-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .industry-section h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e0e0e0;
+        }
+        
+        .industry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .industry-card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .industry-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .industry-flower {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .industry-flower:hover {
+            transform: scale(1.1);
+        }
+        
+        .industry-flower img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .industry-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .industry-count {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .industry-desc {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.4;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .modal-header {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .modal-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .modal-keywords {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-keywords h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .modal-keywords .keywords {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .modal-footer {
+            text-align: right;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 20px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-btn.primary {
+            background: #6b9dc3;
+            color: white;
+        }
+        
+        .modal-btn.primary:hover {
+            background: #4a7c9b;
+        }
+        
+        .modal-btn.secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .modal-btn.secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close:hover {
+            color: #333;
+            transform: rotate(90deg);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 20px 0;
+            }
+            
+            .stats-section,
+            .month-nav,
+            .industry-section {
+                padding: 20px;
+            }
+            
+            .stat-label-row {
+                font-size: 14px;
+            }
+            
+            .industry-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            
+            .month-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .industry-flower {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .industry-name {
+                font-size: 16px;
+            }
+            
+            .header-logo {
+                width: 40px;
+            }
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-logo">
+                <img src="logo_.png" alt="Logo">
+            </div>
+            <div class="title-image">
+                <img src="title_image.png" alt="浦东产业信息花田">
+            </div>
+        </header>
+        
+        <section class="month-nav">
+            <h2>点击月份，巡视花田</h2>
+            <div class="month-buttons">
+                <button class="month-btn active" onclick="window.location.href='index.html'">全部</button>
+                <button class="month-btn" onclick="window.location.href='01.html'">2026年1月</button>
+                <button class="month-btn" onclick="window.location.href='02.html'">2026年2月</button>
+                <button class="month-btn" onclick="window.location.href='03.html'">2026年3月</button>
+                <button class="month-btn" onclick="window.location.href='04.html'">2026年4月</button>
+            </div>
+        </section>
+        
+        <section class="industry-section">
+            <h2>产业花田</h2>
+            <div class="industry-grid">
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal9')">
+                        <img src="flowers/科创-集成电路-紫色鸢尾.png" alt="集成电路">
+                    </div>
+                    <div class="industry-name">集成电路</div>
+                    <div class="industry-count">3篇</div>
+                    <div class="industry-desc">集成电路产业相关文章，包括芯片设计、制造等</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal6')">
+                        <img src="flowers/科创-生物医药-蓝色鸢尾.png" alt="生物医药">
+                    </div>
+                    <div class="industry-name">生物医药</div>
+                    <div class="industry-count">17篇</div>
+                    <div class="industry-desc">生物医药产业相关文章，包括制药、医疗设备等</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal1')">
+                        <img src="flowers/科创-人工智能.png" alt="人工智能">
+                    </div>
+                    <div class="industry-name">人工智能</div>
+                    <div class="industry-count">58篇</div>
+                    <div class="industry-desc">人工智能产业相关文章，包括AI技术、应用和发展趋势</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal5')">
+                        <img src="flowers/科创-其他-黄色鸢尾.png" alt="其他科创产业">
+                    </div>
+                    <div class="industry-name">其他科创产业</div>
+                    <div class="industry-count">32篇</div>
+                    <div class="industry-desc">其他科技创新相关产业文章</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal2')">
+                        <img src="flowers/金融-金色向日葵.png" alt="金融产业">
+                    </div>
+                    <div class="industry-name">金融产业</div>
+                    <div class="industry-count">39篇</div>
+                    <div class="industry-desc">金融产业相关文章，包括银行业、证券业和保险业</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal3')">
+                        <img src="flowers/航运-蓝色郁金香.png" alt="航运产业">
+                    </div>
+                    <div class="industry-name">航运产业</div>
+                    <div class="industry-count">18篇</div>
+                    <div class="industry-desc">航运产业相关文章，包括港口、物流和航运服务</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal4')">
+                        <img src="flowers/文体旅-红色玫瑰花.png" alt="文体旅产业">
+                    </div>
+                    <div class="industry-name">文体旅产业</div>
+                    <div class="industry-count">18篇</div>
+                    <div class="industry-desc">文化、体育和旅游产业相关文章</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal7')">
+                        <img src="flowers/贸易-浅紫色虞美人.png" alt="贸易产业">
+                    </div>
+                    <div class="industry-name">贸易产业</div>
+                    <div class="industry-count">12篇</div>
+                    <div class="industry-desc">贸易产业相关文章，包括进出口、跨境贸易等</div>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-flower" onclick="openModal('modal8')">
+                        <img src="flowers/消费-粉色樱花.png" alt="消费产业">
+                    </div>
+                    <div class="industry-name">消费产业</div>
+                    <div class="industry-count">8篇</div>
+                    <div class="industry-desc">消费产业相关文章，包括零售、餐饮和服务业</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：智元第10000台通用具身机器人下线，浦东具身智能产业链条实现多点突破</h2>
+                <div class="modal-meta">发布时间：2026-03-30 20:42:13 | 涉及产业：人工智能、航运、集成电路</div>
+            </div>
+            <div class="modal-body">
+                <p>智元第10000台通用具身机器人下线，浦东具身智能产业链条实现多点突破 当前，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">AI、仓储、芯片</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal1')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/Yo2d_tBUMHB51P0zc9iDlw', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：上海今年首款Ⅲ类创新医疗器械获批上市！浦东持续打造全球创新药械首发地</h2>
+                <div class="modal-meta">发布时间：2026-01-09 10:12:16 | 涉及产业：金融、人工智能、生物医药、消费</div>
+            </div>
+            <div class="modal-body">
+                <p>上海今年首款Ⅲ类创新医疗器械获批上市！浦东持续打造全球创新药械首发地 近日，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">上市、AR、医药、品牌</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal2')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/jf82NsVNjwfe6k5_OLOwRA', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：浦东低空交通运输体系建设获新进展！张江完成国内首次生物医药领域无人机干冰配送测试</h2>
+                <div class="modal-meta">发布时间：2026-03-02 10:04:22 | 涉及产业：航运、生物医药、其他科创产业</div>
+            </div>
+            <div class="modal-body">
+                <p>浦东低空交通运输体系建设获新进展！张江完成国内首次生物医药领域无人机干冰配送测试 2月28日，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">物流、生物医药、低空飞行</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal3')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/laUOLILYdXJZPd3fzGtBwQ', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal4')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：古镇“潮”起来，赛场“火”起来！浦东探索文商旅体展融合发展新路径</h2>
+                <div class="modal-meta">发布时间：2026-01-19 10:00:10 | 涉及产业：文体旅</div>
+            </div>
+            <div class="modal-body">
+                <p>古镇“潮”起来，赛场“火”起来！浦东探索文商旅体展融合发展新路径 近日，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">文旅、体育、融合发展</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal4')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/xxx', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal5')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：消费级睡眠产品发布，临床试验完成……浦东脑机接口产业加快发展</h2>
+                <div class="modal-meta">发布时间：2026-01-12 20:40:41 | 涉及产业：其他科创产业、消费、人工智能、金融、生物医药</div>
+            </div>
+            <div class="modal-body">
+                <p>消费级睡眠产品发布，临床试验完成……浦东脑机接口产业加快发展 近期，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">科技创新、消费、人工智能、上市、临床试验</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal5')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/fDan46W_UwozUCll-4TAqA', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal6" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal6')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：浦东低空交通运输体系建设获新进展！张江完成国内首次生物医药领域无人机干冰配送测试</h2>
+                <div class="modal-meta">发布时间：2026-03-02 10:04:22 | 涉及产业：航运、生物医药、其他科创产业</div>
+            </div>
+            <div class="modal-body">
+                <p>浦东低空交通运输体系建设获新进展！张江完成国内首次生物医药领域无人机干冰配送测试 2月28日，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">物流、生物医药、低空飞行</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal6')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/laUOLILYdXJZPd3fzGtBwQ', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal7" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal7')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：贸易产业相关文章</h2>
+                <div class="modal-meta">发布时间：2026-02-15 14:30:00 | 涉及产业：贸易</div>
+            </div>
+            <div class="modal-body">
+                <p>贸易产业相关文章内容……</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">进出口、跨境贸易</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal7')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/xxx', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal8" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal8')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：消费产业相关文章</h2>
+                <div class="modal-meta">发布时间：2026-02-20 10:15:00 | 涉及产业：消费</div>
+            </div>
+            <div class="modal-body">
+                <p>消费产业相关文章内容……</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">零售、餐饮、服务业</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal8')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/xxx', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal9" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal9')">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">最新信息：智元第10000台通用具身机器人下线，浦东具身智能产业链条实现多点突破</h2>
+                <div class="modal-meta">发布时间：2026-03-30 20:42:13 | 涉及产业：人工智能、航运、集成电路</div>
+            </div>
+            <div class="modal-body">
+                <p>智元第10000台通用具身机器人下线，浦东具身智能产业链条实现多点突破 当前，</p>
+                <div class="modal-keywords">
+                    <h4>关键词</h4>
+                    <div class="keywords">AI、仓储、芯片</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" onclick="closeModal('modal9')">关闭</button>
+                <button class="modal-btn primary" onclick="window.open('https://mp.weixin.qq.com/s/Yo2d_tBUMHB51P0zc9iDlw', '_blank')">查看原文</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+        
+        window.onload = function() {
+            const bars = document.querySelectorAll('.stat-bar, .tech-sub-bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    bar.style.width = bar.style.width;
+                }, index * 100);
+            });
+        }
+    </script>
+    
+    <div class="copyright">
+        <p>易沸设计 内部阅读 仅供参考</p>
+    </div>
+</body>
+</html>
